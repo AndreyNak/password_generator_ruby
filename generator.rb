@@ -91,7 +91,7 @@ class PasswordGeneration
 end
 
 
-gen = PasswordGeneration.new()
+gen = PasswordGeneration.new(55,1, true, true , true )
 
 puts(gen.gen_pass())
 
