@@ -23,10 +23,6 @@ class PasswordGeneration
     rand(number.to_i)
   end
 
-  def error_message(message)
-    puts(message)
-  end
-
   def validation_values
     count_true = 0
     begin
