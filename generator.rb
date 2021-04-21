@@ -1,77 +1,98 @@
+require_relative 'error_message'
 class PasswordGeneration
-  def initialize(options)
-    @lengthLetters = options['lengthLetters']
-    @lengthNumbers = options['lengthNumbers']
-    @setNumbers = options['setNumbers']
-    @leftNumbers = options['leftNumbers']
-    @rightNumbers = options['rightNumbers']
+  include ErrorMessage
+
+  COMBINATION1 = %w[tch ck nk gh tion ture sure igh].freeze
+  COMBINATION2 = %w[wh qu wr kn wo wa].freeze
+  VOWELS = 'aeiouy'.freeze
+  CONSONANTS = 'bcdfghjklmnpqrstvwxz'.freeze
+
+  def initialize(lengthLetters = 5, lengthNumbers = 5, setNumbers = true , leftNumbers = true , rightNumbers = true )
+    @lengthLetters = lengthLetters
+    @lengthNumbers = lengthNumbers
+    @setNumbers = setNumbers
+    @leftNumbers = leftNumbers
+    @rightNumbers = rightNumbers
   end
 
-  def genNumbers
+  def gen_numbers
     number = ''
-    index = 0
-    while index < @lengthNumbers
-      index += 1
+    @lengthNumbers.times do
       number += '9'
     end
-    number.to_i
+    rand(number.to_i)
   end
 
-  def genLetters
-    combination1 = ['tch', 'ck', 'nk', 'gh', 'tion', 'ture', 'sure', 'igh']
-    combination2 = ['wh', 'qu', 'wr', 'kn', 'wo', 'wa']
-    vowels = "aeiouy"
-    consonants = "bcdfghjklmnpqrstvwxz"
-    pass = ''
+  def error_message(message)
+    puts(message)
+  end
 
-    for index in (0..@lengthLetters - 1)
-      if index % 2 == 0
-        pass += consonants[rand(consonants.length)]
-      else
-        pass += vowels[rand(vowels.length)]
-      end
+  def validation_values
+    count_true = 0
+    begin
+      @lengthLetters == @lengthLetters.to_i ? count_true += 1 : should_integer_letters_message
+      @lengthLetters <= 50 ? count_true += 1 : max_value_letters_message
+      @lengthNumbers == @lengthNumbers.to_i ? count_true += 1 : should_integer_numbers_message
+      @lengthNumbers != 0 ? count_true += 1 : without_zero_message
+      @lengthNumbers <= 30 ? count_true += 1 : max_value_numbers_message
+      !!@setNumbers == @setNumbers ? count_true += 1 : set_numbers_should_boolean_message
+      !!@leftNumbers == @leftNumbers ? count_true += 1 : left_numbers_should_boolean_message
+      !!@rightNumbers == @rightNumbers ? count_true += 1 : right_numbers_should_boolean_message
+
+    rescue ArgumentError
+      return should_integer_global_message
+    rescue NoMethodError
+      return should_integer_global_message
+    end
+    puts(count_true)
+    true if count_true === 8
+  end
+
+  def gen_letters
+    pass = ''
+    @lengthLetters.times do |index|
+      pass += if index.even?
+                CONSONANTS[rand(CONSONANTS.length)]
+              else
+                VOWELS[rand(VOWELS.length)]
+              end
     end
     if pass.length > 10
-      elem = combination1[rand(combination1.length)]
+      elem = COMBINATION1[rand(COMBINATION1.length)]
       pass = pass[0..pass.length - (elem.length + 1)]
       pass += elem
-      elem = combination2[rand(combination2.length)]
+      elem = COMBINATION2[rand(COMBINATION2.length)]
       pass = pass[elem.length..pass.length]
       pass = elem + pass
     end
     pass
   end
 
-  def genPass
-    if @setNumbers
-      return selectNumber
+  def gen_pass
+    if validation_values
+      if @setNumbers
+        return select_number
+      end
+      gen_letters
     end
-    genLetters
   end
 
-  def selectNumber
+  def select_number
     if @leftNumbers && @rightNumbers
-      return rand(genNumbers).to_s + genLetters + rand(genNumbers).to_s
+      return gen_numbers.to_s + gen_letters + gen_numbers.to_s
     elsif @leftNumbers
-      return rand(genNumbers).to_s + genLetters
+      return gen_numbers.to_s + gen_letters
     elsif @rightNumbers
-      return genLetters + rand(genNumbers).to_s
+      return gen_letters + gen_numbers.to_s
     end
-    genLetters
 
+    gen_letters
   end
 end
 
 
-gen = PasswordGeneration.new(
-  {
-    'lengthLetters' => 4,
-    'lengthNumbers' => 6,
-    'setNumbers' => false,
-    'leftNumbers' => true,
-    'rightNumbers' => false
-  }
-)
+gen = PasswordGeneration.new()
 
-print(gen.genPass)
+puts(gen.gen_pass())
+
 
