@@ -23,6 +23,28 @@ class PasswordGeneration
     @rightNumbers = rightNumbers
   end
 
+  def gen_pass
+    if validation_values
+      return select_number if @setNumbers
+
+      gen_letters
+    end
+  end
+
+  def select_number
+    if @leftNumbers && @rightNumbers
+      return gen_numbers.to_s + gen_letters + gen_numbers.to_s
+    elsif @leftNumbers
+      return gen_numbers.to_s + gen_letters
+    elsif @rightNumbers
+      return gen_letters + gen_numbers.to_s
+    end
+
+    gen_letters
+  end
+
+  private
+
   def gen_numbers
     rand(10**@lengthNumbers)
   end
@@ -46,28 +68,9 @@ class PasswordGeneration
     end
     pass
   end
-
-  def gen_pass
-    if validation_values
-      return select_number if @setNumbers
-
-      gen_letters
-    end
-  end
-
-  def select_number
-    if @leftNumbers && @rightNumbers
-      return gen_numbers.to_s + gen_letters + gen_numbers.to_s
-    elsif @leftNumbers
-      return gen_numbers.to_s + gen_letters
-    elsif @rightNumbers
-      return gen_letters + gen_numbers.to_s
-    end
-
-    gen_letters
-  end
 end
 
-gen = PasswordGeneration.new(-1, 5, true, true, true)
+gen = PasswordGeneration.new(2, 5, true, true, true)
 
 puts(gen.gen_pass)
+
