@@ -22,11 +22,7 @@ class PasswordGeneration
   end
 
   def gen_numbers
-    number = ''
-    @lengthNumbers.times do
-      number += '9'
-    end
-    rand(number.to_i)
+    rand(10**@lengthNumbers)
   end
 
   def gen_letters
