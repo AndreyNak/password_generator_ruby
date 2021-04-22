@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 require_relative 'validation'
 
 class PasswordGeneration
   include Validation
   COMBINATION1 = %w[tch ck nk gh tion ture sure igh].freeze
   COMBINATION2 = %w[wh qu wr kn wo wa].freeze
-  VOWELS = 'aeiouy'.freeze
-  CONSONANTS = 'bcdfghjklmnpqrstvwxz'.freeze
+  VOWELS = 'aeiouy'
+  CONSONANTS = 'bcdfghjklmnpqrstvwxz'
 
-  def initialize (
+  def initialize(
     lengthLetters = 5,
     lengthNumbers = 5,
     setNumbers = true,
@@ -47,9 +49,8 @@ class PasswordGeneration
 
   def gen_pass
     if validation_values
-      if @setNumbers
-        return select_number
-      end
+      return select_number if @setNumbers
+
       gen_letters
     end
   end
@@ -67,8 +68,6 @@ class PasswordGeneration
   end
 end
 
-gen = PasswordGeneration.new(5, 5, true, true, true)
+gen = PasswordGeneration.new(-1, 5, true, true, true)
 
-puts(gen.gen_pass())
-
-
+puts(gen.gen_pass)
