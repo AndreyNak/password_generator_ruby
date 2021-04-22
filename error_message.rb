@@ -1,5 +1,4 @@
 module ErrorMessage
-
   def should_integer_letters_message
     puts('В Поле "Длина букв" значение  должно быть цифрой, типом integer')
   end
@@ -12,8 +11,16 @@ module ErrorMessage
     puts('В поле "Длина числа" значение должно быть не больше 50')
   end
 
+  def min_value_letters_messages
+    puts('В поле "Длина числа" значение должно быть не меньше 0')
+  end
+
   def max_value_numbers_message
     puts('В поле "Длина числа" значение должно быть не больше 30')
+  end
+
+  def min_value_numbers_message
+    puts('В поле "Длина числа" значение должно быть не меньше 1')
   end
 
   def without_zero_message
@@ -35,5 +42,4 @@ module ErrorMessage
   def should_integer_global_message
     puts('Введите в поле  значения типа integer !')
   end
-
 end
