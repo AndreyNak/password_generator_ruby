@@ -1,13 +1,19 @@
-require_relative 'error_message'
-class PasswordGeneration
-  include ErrorMessage
+require_relative 'validation'
 
+class PasswordGeneration
+  include Validation
   COMBINATION1 = %w[tch ck nk gh tion ture sure igh].freeze
   COMBINATION2 = %w[wh qu wr kn wo wa].freeze
   VOWELS = 'aeiouy'.freeze
   CONSONANTS = 'bcdfghjklmnpqrstvwxz'.freeze
 
-  def initialize(lengthLetters = 5, lengthNumbers = 5, setNumbers = true , leftNumbers = true , rightNumbers = true )
+  def initialize (
+    lengthLetters = 5,
+    lengthNumbers = 5,
+    setNumbers = true,
+    leftNumbers = true,
+    rightNumbers = true
+  )
     @lengthLetters = lengthLetters
     @lengthNumbers = lengthNumbers
     @setNumbers = setNumbers
@@ -21,27 +27,6 @@ class PasswordGeneration
       number += '9'
     end
     rand(number.to_i)
-  end
-
-  def validation_values
-    count_true = 0
-    begin
-      @lengthLetters == @lengthLetters.to_i ? count_true += 1 : should_integer_letters_message
-      @lengthLetters <= 50 ? count_true += 1 : max_value_letters_message
-      @lengthNumbers == @lengthNumbers.to_i ? count_true += 1 : should_integer_numbers_message
-      @lengthNumbers != 0 ? count_true += 1 : without_zero_message
-      @lengthNumbers <= 30 ? count_true += 1 : max_value_numbers_message
-      !!@setNumbers == @setNumbers ? count_true += 1 : set_numbers_should_boolean_message
-      !!@leftNumbers == @leftNumbers ? count_true += 1 : left_numbers_should_boolean_message
-      !!@rightNumbers == @rightNumbers ? count_true += 1 : right_numbers_should_boolean_message
-
-    rescue ArgumentError
-      return should_integer_global_message
-    rescue NoMethodError
-      return should_integer_global_message
-    end
-    puts(count_true)
-    true if count_true === 8
   end
 
   def gen_letters
@@ -86,8 +71,7 @@ class PasswordGeneration
   end
 end
 
-
-gen = PasswordGeneration.new(55,1, true, true , true )
+gen = PasswordGeneration.new(5, 5, true, true, true)
 
 puts(gen.gen_pass())
 
