@@ -2,6 +2,7 @@
 
 require_relative 'validation'
 
+# Some documentation about PasswordGeneration
 class PasswordGeneration
   include Validation
   COMBINATION1 = %w[tch ck nk gh tion ture sure igh].freeze
@@ -9,34 +10,40 @@ class PasswordGeneration
   VOWELS = 'aeiouy'
   CONSONANTS = 'bcdfghjklmnpqrstvwxz'
 
+  attr_accessor :length_letters,
+                :length_numbers,
+                :set_numbers,
+                :left_numbers,
+                :right_numbers
+
   def initialize(
-    lengthLetters = 5,
-    lengthNumbers = 5,
-    setNumbers = true,
-    leftNumbers = true,
-    rightNumbers = true
+    length_letters = 5,
+    length_numbers = 5,
+    set_numbers = true,
+    left_numbers = true,
+    right_numbers = true
   )
-    @lengthLetters = lengthLetters
-    @lengthNumbers = lengthNumbers
-    @setNumbers = setNumbers
-    @leftNumbers = leftNumbers
-    @rightNumbers = rightNumbers
+    @length_letters = length_letters
+    @length_numbers = length_numbers
+    @set_numbers = set_numbers
+    @left_numbers = left_numbers
+    @right_numbers = right_numbers
   end
 
   def gen_pass
     if validation_values
-      return select_number if @setNumbers
+      return select_number if @set_numbers
 
       gen_letters
     end
   end
 
   def select_number
-    if @leftNumbers && @rightNumbers
+    if @left_numbers && @right_numbers
       return gen_numbers.to_s + gen_letters + gen_numbers.to_s
-    elsif @leftNumbers
+    elsif @left_numbers
       return gen_numbers.to_s + gen_letters
-    elsif @rightNumbers
+    elsif @right_numbers
       return gen_letters + gen_numbers.to_s
     end
 
@@ -46,12 +53,12 @@ class PasswordGeneration
   private
 
   def gen_numbers
-    rand(10**@lengthNumbers)
+    rand(10**@length_numbers)
   end
 
   def gen_letters
     pass = ''
-    @lengthLetters.times do |index|
+    @length_letters.times do |index|
       pass += if index.even?
                 CONSONANTS[rand(CONSONANTS.length)]
               else
@@ -70,7 +77,6 @@ class PasswordGeneration
   end
 end
 
-gen = PasswordGeneration.new(2, 5, true, true, true)
+gen = PasswordGeneration.new(5, 5, true, true, true)
 
 puts(gen.gen_pass)
-
