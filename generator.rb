@@ -23,8 +23,8 @@ class PasswordGeneration
     left_numbers = true,
     right_numbers = true
   )
-    @length_letters = length_letters
-    @length_numbers = length_numbers
+    @length_letters = length_letters.to_i
+    @length_numbers = length_numbers.to_i
     @set_numbers = set_numbers
     @left_numbers = left_numbers
     @right_numbers = right_numbers
