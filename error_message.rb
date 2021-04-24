@@ -1,60 +1,45 @@
 module ErrorMessage
-  def error_message(message)
-    puts(message)
+  def error_message
+    'Error Validation'
   end
 
   def should_integer_letters_message
-    error_message('В Поле "Длина букв" значение  должно быть цифрой, типом integer')
-    false
+    'Only integer type in the "length_letters" field'
   end
 
   def should_integer_numbers_message
-    error_message('В Поле "Длина чисел" значение  должно быть цифрой, типом integer')
-    false
+    'Only integer type in the "length_numbers" field'
   end
 
   def max_value_letters_message
-    error_message('В поле "Длина числа" значение должно быть не больше 50')
-    false
+    'Max value 50 in the field "length_letters"'
   end
 
   def min_value_letters_messages
-    error_message('В поле "Длина числа" значение должно быть не меньше 0')
-    false
+    'Min value 0 in the field "length_letters"'
   end
 
   def max_value_numbers_message
-    error_message('В поле "Длина числа" значение должно быть не больше 30')
-    false
+    'Max value 30 in the field "length_numbers'
   end
 
   def min_value_numbers_message
-    error_message('В поле "Длина числа" значение должно быть не меньше 1')
-    false
-  end
-
-  def without_zero_message
-    error_message('А нолик нельзя !')
+    'Min value 1 in the field "length_numbers"'
   end
 
   def set_numbers_should_boolean_message
-    error_message('Поле  "Добавить числа" значение должно быть только  типом boolean')
-    false
+    'The field "set_numbers" value must only be of type boolean'
   end
 
   def right_numbers_should_boolean_message
-    error_message('Поле  "Правые числа" значение должно быть только типом boolean')
-    false
+    'The field "right_numbers" value must only be of type boolean'
   end
 
   def left_numbers_should_boolean_message
-    error_message('Поле  "Левые числа" значение должно только  типом boolean')
-    false
+    'The field "left_numbers" value must only be of type boolean'
   end
 
   def should_integer_global_message
-    error_message('Введите в поле  значения типа integer !')
-    false
+    'Only type integer'
   end
-
 end
