@@ -8,25 +8,21 @@ module Validation
 
   def validation_values
     begin
-      valid_mass = [
-        @length_letters == @length_letters.to_i ? true : should_integer_letters_message,
-        @length_letters <= 50 ? true : max_value_letters_message,
-        @length_letters >= 0 ? true : min_value_letters_messages,
-        @length_numbers == @length_numbers.to_i ? true : should_integer_numbers_message,
-        @length_numbers >= 1 ? true : min_value_numbers_message,
-        @length_numbers <= 30 ? true : max_value_numbers_message,
-        !!@set_numbers == @set_numbers ? true : set_numbers_should_boolean_message,
-        !!@left_numbers == @left_numbers ? true : left_numbers_should_boolean_message,
-        !!@right_numbers == @right_numbers ? true : right_numbers_should_boolean_message
-      ]
-
+      return false if @length_letters == @length_letters.to_i ? false : should_integer_letters_message
+      return false if @length_letters <= 50 ? false : max_value_letters_message
+      return false if @length_letters >= 0 ? false : min_value_letters_messages
+      return false if @length_numbers == @length_numbers.to_i ? false : should_integer_numbers_message
+      return false if @length_numbers >= 1 ? false : min_value_numbers_message
+      return false if @length_numbers <= 30 ? false : max_value_numbers_message
+      return false if !!@set_numbers == @set_numbers ? false : set_numbers_should_boolean_message
+      return false if !!@left_numbers == @left_numbers ? false : left_numbers_should_boolean_message
+      return false if !!@right_numbers == @right_numbers ? false : right_numbers_should_boolean_message
 
     rescue ArgumentError
       return should_integer_global_message
     rescue NoMethodError
       return should_integer_global_message
     end
-    return false if valid_mass.include?(false)
 
     true
   end
