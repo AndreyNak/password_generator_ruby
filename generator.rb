@@ -35,6 +35,8 @@ class PasswordGeneration
       return select_number if @set_numbers
 
       gen_letters
+    else
+      puts(error_message)
     end
   end
 
@@ -77,6 +79,7 @@ class PasswordGeneration
   end
 end
 
-gen = PasswordGeneration.new(5, 5, true, true, true)
+gen = PasswordGeneration.new(1, 0, true, true, true)
 
 puts(gen.gen_pass)
+
